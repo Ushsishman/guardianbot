@@ -1,4 +1,5 @@
 const { SlashCommandBuilder, PermissionFlagsBits } = require("discord.js");
+const logAction = require("../../src/utils/logAction");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -15,6 +16,7 @@ module.exports = {
       await interaction.editReply({
         content: `${interaction.user} deleted all messages in this channel.`,
       });
+      await logAction(interaction, "Clear chat", null);
     } catch (error) {
       console.error(error);
       await interaction.reply("Failed to delete messages.");

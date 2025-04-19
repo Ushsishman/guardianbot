@@ -3,6 +3,7 @@ const {
   PermissionFlagsBits,
   MessageFlags,
 } = require("discord.js");
+const logAction = require("../../src/utils/logAction");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -26,6 +27,7 @@ module.exports = {
         content: `✅ Success! User ${user} has been banned from the server.`,
         flags: MessageFlags.Ephemeral,
       });
+      await logAction(interaction, "Ban", user);
     } catch (error) {
       console.error(error);
       await interaction.reply({
