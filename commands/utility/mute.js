@@ -4,6 +4,7 @@ const {
   MessageFlags,
 } = require("discord.js");
 const ms = require("ms");
+const logAction = require("../../src/utils/logAction");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -41,6 +42,7 @@ module.exports = {
           content: `✅ Success! User ${member} has been muted for ${formattedDuration} minute successfully.`,
           flags: MessageFlags.Ephemeral,
         });
+        await logAction(interaction, "Muted", member);
       }
     } catch (error) {
       console.error(error);
