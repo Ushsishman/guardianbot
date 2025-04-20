@@ -27,7 +27,7 @@ module.exports = {
         content: `✅ Success! User ${member} has been kicked from the server.`,
         flags: MessageFlags.Ephemeral,
       });
-      await logAction(interaction, "Kick", member);
+      await logAction(interaction, "Kicked", member);
     } catch (error) {
       console.error(error);
       await interaction.reply({

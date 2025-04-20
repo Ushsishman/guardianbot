@@ -27,7 +27,7 @@ module.exports = {
         content: `✅ Success! User ${user} has been banned from the server.`,
         flags: MessageFlags.Ephemeral,
       });
-      await logAction(interaction, "Ban", user);
+      await logAction(interaction, "Banned", user);
     } catch (error) {
       console.error(error);
       await interaction.reply({

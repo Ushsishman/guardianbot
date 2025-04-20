@@ -42,7 +42,7 @@ module.exports = {
           content: `✅ Success! User ${member} has been muted for ${formattedDuration} minute successfully.`,
           flags: MessageFlags.Ephemeral,
         });
-        await logAction(interaction, "Mute", member);
+        await logAction(interaction, "Muted", member);
       }
     } catch (error) {
       console.error(error);

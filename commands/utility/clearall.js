@@ -16,7 +16,7 @@ module.exports = {
       await interaction.editReply({
         content: `${interaction.user} deleted all messages in this channel.`,
       });
-      await logAction(interaction, "Clear chat", null);
+      await logAction(interaction, "Clear Chat", null);
     } catch (error) {
       console.error(error);
       await interaction.reply("Failed to delete messages.");
