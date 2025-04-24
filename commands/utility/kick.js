@@ -15,19 +15,27 @@ module.exports = {
         .setDescription("The member to kick")
         .setRequired(true),
     )
+    .addStringOption((option) =>
+      option
+        .setName("reason")
+        .setDescription(
+          "Optional. Provide a reason for the action. This will be recorded in logs.",
+        ),
+    )
     .setDefaultMemberPermissions(PermissionFlagsBits.KickMembers),
 
   async execute(interaction) {
     const member = interaction.options.getMember("target");
+    const reason = interaction.options.getString("reason");
 
     try {
       await interaction.deferReply({ ephemeral: true });
-      await member.kick();
+      await member.kick(reason);
       await interaction.editReply({
         content: `✅ Success! User ${member} has been kicked from the server.`,
         flags: MessageFlags.Ephemeral,
       });
-      await logAction(interaction, "Kicked", member);
+      await logAction(interaction, "Kicked", member, reason);
     } catch (error) {
       console.error(error);
       await interaction.reply({

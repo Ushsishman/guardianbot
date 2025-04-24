@@ -22,11 +22,20 @@ module.exports = {
         .setDescription("How long the target should be muted for.")
         .setRequired(true),
     )
+    .addStringOption((option) =>
+      option
+        .setName("reason")
+        .setDescription(
+          "Optional. Provide a reason for the action. This will be recorded in logs.",
+        ),
+    )
     .setDefaultMemberPermissions(PermissionFlagsBits.MuteMembers),
   async execute(interaction) {
     const member = interaction.options.getMember("target");
     const duration = interaction.options.getString("duration");
-    const formattedDuration = ms(duration);
+    const reason = interaction.options.getString("reason");
+    const formattedDuration = ms(`${duration}m`);
+    const formattedDurationText = ms(formattedDuration, { long: true });
     const maxDuration = ms("28 days");
 
     try {
@@ -37,12 +46,12 @@ module.exports = {
         });
       } else {
         await interaction.deferReply({ ephemeral: true });
-        await member.timeout(formattedDuration * 60000);
+        await member.timeout(formattedDuration, reason);
         await interaction.editReply({
-          content: `✅ Success! User ${member} has been muted for ${formattedDuration} minute successfully.`,
+          content: `✅ Success! User ${member} has been muted for ${formattedDurationText} successfully.`,
           flags: MessageFlags.Ephemeral,
         });
-        await logAction(interaction, "Muted", member);
+        await logAction(interaction, "Muted", member, reason);
       }
     } catch (error) {
       console.error(error);

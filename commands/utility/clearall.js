@@ -8,7 +8,9 @@ module.exports = {
     .setDefaultMemberPermissions(PermissionFlagsBits.ManageMessages),
 
   async execute(interaction) {
-    const currentChannelMessages = await interaction.channel.messages.fetch();
+    const currentChannelMessages = await interaction.channel.messages.fetch({
+      limit: 100,
+    });
 
     try {
       await interaction.deferReply();

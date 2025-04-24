@@ -15,19 +15,27 @@ module.exports = {
         .setDescription("The member to ban")
         .setRequired(true),
     )
+    .addStringOption((option) =>
+      option
+        .setName("reason")
+        .setDescription(
+          "Optional. Provide a reason for the action. This will be recorded in logs.",
+        ),
+    )
     .setDefaultMemberPermissions(PermissionFlagsBits.BanMembers),
 
   async execute(interaction) {
     const user = interaction.options.getUser("target");
+    const reason = interaction.options.getString("reason");
 
     try {
       await interaction.deferReply({ ephemeral: true });
-      await interaction.guild.members.ban(user);
+      await interaction.guild.members.ban(user, { reason: reason });
       await interaction.editReply({
         content: `✅ Success! User ${user} has been banned from the server.`,
         flags: MessageFlags.Ephemeral,
       });
-      await logAction(interaction, "Banned", user);
+      await logAction(interaction, "Banned", user, reason);
     } catch (error) {
       console.error(error);
       await interaction.reply({
