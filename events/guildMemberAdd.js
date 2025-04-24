@@ -13,7 +13,11 @@ module.exports = {
       .setThumbnail(member.user.displayAvatarURL({ dynamic: true }))
       .setTimestamp();
 
-    await channel.send({ embeds: [welcomeEmbed] });
-    await member.roles.add(`${process.env.DEF_ROLE_ID}`);
+    try {
+      await channel.send({ embeds: [welcomeEmbed] });
+      await member.roles.add(`${process.env.DEF_ROLE_ID}`);
+    } catch (error) {
+      console.error(error);
+    }
   },
 };
